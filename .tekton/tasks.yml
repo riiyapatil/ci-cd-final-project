@@ -1,0 +1,23 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: my-pipeline
+spec:
+  workspaces:
+    - name: source
+  tasks:
+    - name: cleanup
+      taskRef:
+        name: cleanup
+      workspaces:
+        - name: source
+          workspace: source
+    - name: run-tests
+      taskRef:
+        name: nose
+      workspaces:
+        - name: source
+          workspace: source
+      params:
+        - name: args
+          value: "-v"  # You can customize the arguments here
